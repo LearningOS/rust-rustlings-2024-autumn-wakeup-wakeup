@@ -34,9 +34,23 @@
 // Execute `rustlings hint tests7` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
 
-fn main() {}
+
+use std::env;
+use std::time::{SystemTime, UNIX_EPOCH};
+
+fn main() {
+    // Get the current timestamp
+    let start = SystemTime::now();
+    let since_the_epoch = start.duration_since(UNIX_EPOCH)
+        .expect("Time went backwards");
+    let timestamp = since_the_epoch.as_secs();
+
+    // Set the TEST_FOO environment variable to the current timestamp
+    // You can adjust it if you need it to be in a specific range.
+    println!("cargo:rerun-if-env-changed=TEST_FOO");
+    println!("cargo:rustc-env=TEST_FOO={}", timestamp);
+}
 
 #[cfg(test)]
 mod tests {
